@@ -1,0 +1,114 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model MVCTest.Models.HomePageViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Home</title>
+</head>
+<body>
+    <div style="float:left; width:500px; padding-left:100px" >
+        <h3>Departamente</h3>
+         <table style="border-style:solid; border-width:3px" rules="all" cellspacing=0>
+             <tr style="border-style:solid; border-width:2px">
+                 <th style="border-style:solid; border-width:2px">
+                     Nume Departament
+                 </th>
+                 <th style="border-right-width:3px">
+                     Nr. de angajati
+                 </th>
+                 <th style="border-style:hidden; border-left-style:none"></th>
+                 <th style="border-style:hidden"></th>
+             </tr>
+             @foreach (MVCTest.Models.departamente i in Model.departamente)
+                 {
+                 <tr style="border-style:solid; border-width:1px">
+                    <td>
+                        @Html.DisplayFor(modelItem => i.nume)
+                    </td>
+                     <td style="border-right-width:3px">
+                         @i.angajati.Count()
+                     </td>
+                     <td style="border-style:hidden; border-left-style:none; padding-left:10px">
+                         @Html.ActionLink("Detalii", "Index","Detalii", new { id = i.id}, new { })
+                     </td>
+                     <td style="border-style:hidden; padding-left:10px">
+                         @using (Html.BeginForm("Delete", "HomePage", i, FormMethod.Post))
+                             {
+                             @Html.AntiForgeryToken()
+                             <input type="submit" value="Desfiinteaza" />
+                             }
+                     </td>
+                 </tr>
+                 }
+         </table>
+        <br/>
+
+        @{
+            var dep = new MVCTest.Models.departamente();
+         }
+
+        @using (Html.BeginForm("Create", "HomePage", dep, FormMethod.Post))
+            {
+            @Html.AntiForgeryToken()
+            @Html.EditorFor(i => dep.nume, new { htmlAttributes = new { @Value = "Departament nou" } })
+            <input type="submit" value="Infiinteaza"/>
+            }
+        
+    </div>
+    <div style="float:left">
+        <h3>Proiecte</h3>
+        <table style="border-style:solid; border-width:3px" rules="all" cellspacing=0>
+            <tr style="border-style:solid; border-width:2px">
+                <th style="border-style:solid; border-width:2px">
+                    Nume Proiect
+                </th>
+                <th style="border-right-width:3px">
+                    Nr. de participanti
+                </th>
+                <th style="border-style:hidden; border-left-style:none"></th>
+                <th style="border-style:hidden"></th>
+            </tr>
+            @foreach (MVCTest.Models.proiecte i in Model.proiecte)
+                {
+                <tr style="border-style:solid; border-width:1px">
+                    <td>
+                        @Html.DisplayFor(modelItem => i.nume)
+                    </td>
+                    <td style="border-right-width:3px">
+                        @i.angajati.Count()
+                    </td>
+                    <td style="border-style:hidden; border-left-style:none; padding-left:10px">
+                        @Html.ActionLink("Detalii", "Index", "DetaliiProiect", new { id = i.id }, new { })
+                    </td>
+                    <td style="border-style:hidden; padding-left:10px">
+                        @using (Html.BeginForm("DeleteProiect", "HomePage", i, FormMethod.Post))
+                            {
+                            @Html.AntiForgeryToken()
+                            <input type="submit" value="Opreste" />
+                            }
+                    </td>
+                </tr>
+                }
+        </table>
+        <br />
+        @{
+            MVCTest.Models.proiecte pro = new MVCTest.Models.proiecte();
+        }
+
+        @using (Html.BeginForm("CreateProiect", "HomePage", pro, FormMethod.Post))
+            {
+            @Html.AntiForgeryToken();
+            @Html.EditorFor(i => pro.nume, new { htmlAttributes = new { @Value = "Proiect nou" } })
+            <input type="submit" value="Incepe"/>
+            }
+    </div>
+
+</body>
+</html>

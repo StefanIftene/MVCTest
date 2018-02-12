@@ -1,0 +1,55 @@
+﻿
+@{
+    Layout = null;
+}
+@model MVCTest.Models.DetaliiProiectViewModel
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalii @Model.proiect.nume</title>
+</head>
+<body>
+    <div style="padding-left:200px">
+         <h3>@Model.proiect.nume</h3>
+        @using (Html.BeginForm("Modifica", "DetaliiProiect", FormMethod.Post))
+            {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.proiect.id)
+            @Html.EditorFor(model => model.proiect.nume)
+            <input type="submit" value="Modifica numele" />
+            }
+        <br/>
+        @using (Html.BeginForm("Schimbari", "DetaliiProiect", FormMethod.Post))
+            {
+        @Html.AntiForgeryToken() 
+        <table style="border-style:solid; border-width:3px" rules="all" cellspacing=0>
+            <tr style="border-style:solid; border-width:2px">
+                <th style="border-style:solid; border-width:2px; border-right-width:3px">
+                    Nume Angajat
+                </th>
+                <th style="border-style:hidden; border-left-style:none; padding-left:10px">
+                    Participant
+                </th>
+            </tr>
+            @for (int i = 0; i < Model.totiangajatii.Count(); i++)
+                {
+                <tr style="border-style:solid; border-width:1px">
+                    <td style="border-right-width:3px">
+                        @Html.DisplayFor(model => model.totiangajatii[i].nume)
+                    </td>
+                    <td style="border-style:hidden; border-left-style:none; padding-left:30px">
+                        @Html.EditorFor(model => model.totiangajatii[i].check)
+                        @Html.HiddenFor(model => model.totiangajatii[i].id)
+                    </td>
+                </tr>
+                }
+        </table>
+        <br/>
+        @Html.HiddenFor(model => model.proiect.id)
+        <input type="submit" value="Salveaza schimbarile" />
+            }
+    </div>
+</body>
+</html>

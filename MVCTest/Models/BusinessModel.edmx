@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="businessdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'businessdb.dbo.ang_pro' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ang_pro">
+          <Key>
+            <PropertyRef Name="angid" />
+            <PropertyRef Name="proid" />
+          </Key>
+          <Property Name="angid" Type="int" Nullable="false" />
+          <Property Name="proid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="angajati">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="prenume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="data" Type="date" Nullable="false" />
+          <Property Name="depid" Type="int" Nullable="false" />
+          <Property Name="conducere" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="departamente">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nume" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="proiecte">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nume" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'businessdb.dbo.tabel_departamente' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tabel_departamente">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Nume" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Angajati" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'businessdb.dbo.tabel_proiecte' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="tabel_proiecte">
+          <Key>
+            <PropertyRef Name="Nume" />
+          </Key>
+          <Property Name="Nume" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Participanti" Type="int" />
+        </EntityType>
+        <Association Name="FK__ang_pro__angid__164452B1">
+          <End Role="angajati" Type="Self.angajati" Multiplicity="1" />
+          <End Role="ang_pro" Type="Self.ang_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="angajati">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ang_pro">
+              <PropertyRef Name="angid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ang_pro__proid__173876EA">
+          <End Role="proiecte" Type="Self.proiecte" Multiplicity="1" />
+          <End Role="ang_pro" Type="Self.ang_pro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="proiecte">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ang_pro">
+              <PropertyRef Name="proid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__angajati__depid__1273C1CD">
+          <End Role="departamente" Type="Self.departamente" Multiplicity="1" />
+          <End Role="angajati" Type="Self.angajati" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="departamente">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="angajati">
+              <PropertyRef Name="depid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="delete_angajat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="delete_proiect" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="membri_proiect" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="proid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="minusproiect" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idang" Type="int" Mode="In" />
+          <Parameter Name="idpro" Type="int" Mode="In" />
+        </Function>
+        <Function Name="plusproiect" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idang" Type="int" Mode="In" />
+          <Parameter Name="idpro" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="businessdbModelStoreContainer">
+          <EntitySet Name="angajati" EntityType="Self.angajati" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="departamente" EntityType="Self.departamente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="proiecte" EntityType="Self.proiecte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ang_pro" EntityType="Self.ang_pro" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ang_pro].[angid] AS [angid], 
+    [ang_pro].[proid] AS [proid]
+    FROM [dbo].[ang_pro] AS [ang_pro]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tabel_departamente" EntityType="Self.tabel_departamente" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tabel_departamente].[Id] AS [Id], 
+    [tabel_departamente].[Nume] AS [Nume], 
+    [tabel_departamente].[Angajati] AS [Angajati]
+    FROM [dbo].[tabel_departamente] AS [tabel_departamente]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="tabel_proiecte" EntityType="Self.tabel_proiecte" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [tabel_proiecte].[Nume] AS [Nume], 
+    [tabel_proiecte].[Participanti] AS [Participanti]
+    FROM [dbo].[tabel_proiecte] AS [tabel_proiecte]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__ang_pro__angid__164452B1" Association="Self.FK__ang_pro__angid__164452B1">
+            <End Role="angajati" EntitySet="angajati" />
+            <End Role="ang_pro" EntitySet="ang_pro" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ang_pro__proid__173876EA" Association="Self.FK__ang_pro__proid__173876EA">
+            <End Role="proiecte" EntitySet="proiecte" />
+            <End Role="ang_pro" EntitySet="ang_pro" />
+          </AssociationSet>
+          <AssociationSet Name="FK__angajati__depid__1273C1CD" Association="Self.FK__angajati__depid__1273C1CD">
+            <End Role="departamente" EntitySet="departamente" />
+            <End Role="angajati" EntitySet="angajati" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="businessdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="angajati">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="prenume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="depid" Type="Int32" Nullable="false" />
+          <Property Name="conducere" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="departamente" Relationship="Self.FK__angajati__depid__1273C1CD" FromRole="angajati" ToRole="departamente" />
+          <NavigationProperty Name="proiecte" Relationship="Self.ang_pro" FromRole="angajati" ToRole="proiecte" />
+        </EntityType>
+        <EntityType Name="departamente">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="angajati" Relationship="Self.FK__angajati__depid__1273C1CD" FromRole="departamente" ToRole="angajati" />
+        </EntityType>
+        <EntityType Name="proiecte">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="angajati" Relationship="Self.ang_pro" FromRole="proiecte" ToRole="angajati" />
+        </EntityType>
+        <EntityType Name="tabel_departamente">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Nume" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Angajati" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tabel_proiecte">
+          <Key>
+            <PropertyRef Name="Nume" />
+          </Key>
+          <Property Name="Nume" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Participanti" Type="Int32" />
+        </EntityType>
+        <Association Name="FK__angajati__depid__1273C1CD">
+          <End Role="departamente" Type="Self.departamente" Multiplicity="1" />
+          <End Role="angajati" Type="Self.angajati" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="departamente">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="angajati">
+              <PropertyRef Name="depid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ang_pro">
+          <End Role="angajati" Type="Self.angajati" Multiplicity="*" />
+          <End Role="proiecte" Type="Self.proiecte" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="angajati" EntityType="Self.angajati" />
+          <EntitySet Name="departamente" EntityType="Self.departamente" />
+          <EntitySet Name="proiecte" EntityType="Self.proiecte" />
+          <EntitySet Name="tabel_departamente" EntityType="Self.tabel_departamente" />
+          <EntitySet Name="tabel_proiecte" EntityType="Self.tabel_proiecte" />
+          <AssociationSet Name="FK__angajati__depid__1273C1CD" Association="Self.FK__angajati__depid__1273C1CD">
+            <End Role="departamente" EntitySet="departamente" />
+            <End Role="angajati" EntitySet="angajati" />
+          </AssociationSet>
+          <AssociationSet Name="ang_pro" Association="Self.ang_pro">
+            <End Role="angajati" EntitySet="angajati" />
+            <End Role="proiecte" EntitySet="proiecte" />
+          </AssociationSet>
+          <FunctionImport Name="delete_angajat">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="delete_proiect">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="membri_proiect" ReturnType="Collection(businessdbModel.membri_proiect_Result)">
+            <Parameter Name="proid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="minusproiect">
+            <Parameter Name="idang" Mode="In" Type="Int32" />
+            <Parameter Name="idpro" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="plusproiect">
+            <Parameter Name="idang" Mode="In" Type="Int32" />
+            <Parameter Name="idpro" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="membri_proiect_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Nume" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Prenume" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Participare" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="Semn" Nullable="false" MaxLength="1" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="businessdbModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="angajati">
+            <EntityTypeMapping TypeName="businessdbModel.angajati">
+              <MappingFragment StoreEntitySet="angajati">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nume" ColumnName="nume" />
+                <ScalarProperty Name="prenume" ColumnName="prenume" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="depid" ColumnName="depid" />
+                <ScalarProperty Name="conducere" ColumnName="conducere" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="departamente">
+            <EntityTypeMapping TypeName="businessdbModel.departamente">
+              <MappingFragment StoreEntitySet="departamente">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nume" ColumnName="nume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="proiecte">
+            <EntityTypeMapping TypeName="businessdbModel.proiecte">
+              <MappingFragment StoreEntitySet="proiecte">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nume" ColumnName="nume" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tabel_departamente">
+            <EntityTypeMapping TypeName="businessdbModel.tabel_departamente">
+              <MappingFragment StoreEntitySet="tabel_departamente">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="Angajati" ColumnName="Angajati" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tabel_proiecte">
+            <EntityTypeMapping TypeName="businessdbModel.tabel_proiecte">
+              <MappingFragment StoreEntitySet="tabel_proiecte">
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="Participanti" ColumnName="Participanti" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ang_pro" TypeName="businessdbModel.ang_pro" StoreEntitySet="ang_pro">
+            <EndProperty Name="angajati">
+              <ScalarProperty Name="id" ColumnName="angid" />
+            </EndProperty>
+            <EndProperty Name="proiecte">
+              <ScalarProperty Name="id" ColumnName="proid" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="delete_angajat" FunctionName="businessdbModel.Store.delete_angajat" />
+          <FunctionImportMapping FunctionImportName="delete_proiect" FunctionName="businessdbModel.Store.delete_proiect" />
+          <FunctionImportMapping FunctionImportName="membri_proiect" FunctionName="businessdbModel.Store.membri_proiect">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="businessdbModel.membri_proiect_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nume" ColumnName="Nume" />
+                <ScalarProperty Name="Prenume" ColumnName="Prenume" />
+                <ScalarProperty Name="Participare" ColumnName="Participare" />
+                <ScalarProperty Name="Semn" ColumnName="Semn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="minusproiect" FunctionName="businessdbModel.Store.minusproiect" />
+          <FunctionImportMapping FunctionImportName="plusproiect" FunctionName="businessdbModel.Store.plusproiect" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

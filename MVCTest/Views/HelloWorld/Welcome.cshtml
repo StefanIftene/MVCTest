@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Welcome</h1>
+
+<ul>
+    @for (int i=0; i<3; i++)
+        {
+        <li>@ViewBag.Message</li>
+        }
+</ul>
+
