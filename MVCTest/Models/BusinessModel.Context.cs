@@ -85,5 +85,14 @@ namespace MVCTest.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("plusproiect", idangParameter, idproParameter);
         }
+    
+        public virtual int delete_departament(Nullable<int> dep_id)
+        {
+            var dep_idParameter = dep_id.HasValue ?
+                new ObjectParameter("dep_id", dep_id) :
+                new ObjectParameter("dep_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("delete_departament", dep_idParameter);
+        }
     }
 }

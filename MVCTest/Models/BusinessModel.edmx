@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="businessdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="businessdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'businessdb.dbo.ang_pro' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ang_pro">
@@ -99,6 +99,9 @@ warning 6002: The table/view 'businessdb.dbo.tabel_proiecte' does not have a pri
         <Function Name="delete_angajat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
+        <Function Name="delete_departament" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="dep_id" Type="int" Mode="In" />
+        </Function>
         <Function Name="delete_proiect" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
         </Function>
@@ -149,8 +152,7 @@ warning 6002: The table/view 'businessdb.dbo.tabel_proiecte' does not have a pri
             <End Role="angajati" EntitySet="angajati" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="businessdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -230,13 +232,13 @@ warning 6002: The table/view 'businessdb.dbo.tabel_proiecte' does not have a pri
             <End Role="proiecte" EntitySet="proiecte" />
           </AssociationSet>
           <FunctionImport Name="delete_angajat">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="delete_proiect">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="membri_proiect" ReturnType="Collection(businessdbModel.membri_proiect_Result)">
-            <Parameter Name="proid" Mode="In" Type="Int32" />
+          <Parameter Name="proid" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="minusproiect">
             <Parameter Name="idang" Mode="In" Type="Int32" />
@@ -245,6 +247,9 @@ warning 6002: The table/view 'businessdb.dbo.tabel_proiecte' does not have a pri
           <FunctionImport Name="plusproiect">
             <Parameter Name="idang" Mode="In" Type="Int32" />
             <Parameter Name="idpro" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="delete_departament">
+            <Parameter Name="dep_id" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="membri_proiect_Result">
@@ -328,6 +333,7 @@ warning 6002: The table/view 'businessdb.dbo.tabel_proiecte' does not have a pri
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="minusproiect" FunctionName="businessdbModel.Store.minusproiect" />
           <FunctionImportMapping FunctionImportName="plusproiect" FunctionName="businessdbModel.Store.plusproiect" />
+          <FunctionImportMapping FunctionImportName="delete_departament" FunctionName="businessdbModel.Store.delete_departament" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
