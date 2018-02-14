@@ -330,6 +330,7 @@
     <Content Include="Views\HomePage\Index.cshtml" />
     <Content Include="Views\Detalii\Index.cshtml" />
     <Content Include="Views\DetaliiProiect\Index.cshtml" />
+    <Content Include="Views\Shared\_CustomLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

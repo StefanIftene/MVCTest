@@ -1,18 +1,6 @@
 ﻿
-@{
-    Layout = null;
-}
-
 @model MVCTest.Models.HomePageViewModel
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Home</title>
-</head>
-<body>
     <div style="float:left; width:500px; padding-left:100px" >
         <h3>Departamente</h3>
          <table style="border-style:solid; border-width:3px" rules="all" cellspacing=0>
@@ -49,20 +37,18 @@
                  }
          </table>
         <br/>
+            @using (Html.BeginForm("Create", "HomePage", FormMethod.Post))
+                {
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.AntiForgeryToken()
+                @Html.TextBox("newdepname")
+                @Html.ValidationMessage("newdepname", "", new { @class = "text-danger" })
+                <input type="submit" value="Infiinteaza" />
+                }
 
-        @{
-            var dep = new MVCTest.Models.departamente();
-         }
 
-        @using (Html.BeginForm("Create", "HomePage", dep, FormMethod.Post))
-            {
-            @Html.AntiForgeryToken()
-            @Html.EditorFor(i => dep.nume, new { htmlAttributes = new { @Value = "Departament nou" } })
-            <input type="submit" value="Infiinteaza"/>
-            }
-        
-    </div>
-    <div style="float:left">
+        </div>
+    <div style="float:left; padding-left:200px">
         <h3>Proiecte</h3>
         <table style="border-style:solid; border-width:3px" rules="all" cellspacing=0>
             <tr style="border-style:solid; border-width:2px">
@@ -98,17 +84,11 @@
                 }
         </table>
         <br />
-        @{
-            MVCTest.Models.proiecte pro = new MVCTest.Models.proiecte();
-        }
-
-        @using (Html.BeginForm("CreateProiect", "HomePage", pro, FormMethod.Post))
+        @using (Html.BeginForm("CreateProiect", "HomePage", FormMethod.Post))
             {
             @Html.AntiForgeryToken();
-            @Html.EditorFor(i => pro.nume, new { htmlAttributes = new { @Value = "Proiect nou" } })
+            @Html.TextBox("newproname")
             <input type="submit" value="Incepe"/>
             }
     </div>
 
-</body>
-</html>

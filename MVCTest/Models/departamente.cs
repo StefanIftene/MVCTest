@@ -23,6 +23,7 @@ namespace MVCTest.Models
         }
     
         public int id { get; set; }
+
         [Display(Name = "Nume Departament")]
         public string nume { get; set; }
     

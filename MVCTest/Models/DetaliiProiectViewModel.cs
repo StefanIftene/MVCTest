@@ -53,13 +53,10 @@ namespace MVCTest.Models
             {
             businessdbEntities db = new businessdbEntities();
             angajati ang = db.angajati.Find(angid);
-            foreach (proiecte p in ang.proiecte)
-                {
-                if (p.id == proid)
-                    {
-                    return true;
-                    }
-                }
+       
+            proiecte proiect = ang.proiecte.Where(p => p.id == proid).FirstOrDefault();
+            if (proiect != null)
+                return true;
             return false;
             }
         }

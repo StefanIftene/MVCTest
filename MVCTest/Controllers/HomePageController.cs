@@ -35,10 +35,16 @@ namespace MVCTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create (Models.departamente dep)
+        public ActionResult Create ([Bind (Include = "newdepname")] Models.HomePageViewModel model)
             {
-            db.departamente.Add(dep);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+                {
+                Models.departamente dep = new Models.departamente();
+                dep.nume = model.newdepname;
+                db.departamente.Add(dep);
+                db.SaveChanges();
+                }
+
             return RedirectToAction("Index");
             }
 
@@ -52,10 +58,16 @@ namespace MVCTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateProiect (Models.proiecte pro)
+        public ActionResult CreateProiect ([Bind(Include="newproname")] Models.HomePageViewModel model)
             {
-            db.proiecte.Add(pro);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+                {
+                Models.proiecte pro = new Models.proiecte();
+                pro.nume = model.newproname;
+                db.proiecte.Add(pro);
+                db.SaveChanges();
+                }
+
             return RedirectToAction("Index");
             }
 
