@@ -249,7 +249,7 @@ warning 6002: The table/view 'businessdb.dbo.tabel_proiecte' does not have a pri
             <Parameter Name="idpro" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="delete_departament">
-            <Parameter Name="dep_id" Mode="In" Type="Int32" />
+          <Parameter Name="dep_id" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="membri_proiect_Result">
