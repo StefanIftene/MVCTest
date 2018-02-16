@@ -1,0 +1,56 @@
+﻿body {
+    font-family: Arial
+}
+
+.mynavbar {
+    background-color: rgba(54, 33, 160, 0.90);
+    color: #ffffff;
+    font-family: Verdana
+}
+
+.mynavbar > .container > a, 
+.mynavbar > .container > div > a,
+.mynavbar > .container > div > ul > li > a{
+    color: #ffffff;
+    text-align: center
+}
+
+.mynavbar > .container > a:hover,
+.mynavbar > .container > div > a:hover,
+.mynavbar > .container > div > ul > li > a:hover {
+    background-color: rgb(110, 95, 189)
+}
+
+.mynavbar > .container > div > ul > li > ul > li > a:hover {
+   background-color: rgb(110, 95, 189)
+}
+
+.mytable {
+    font-size: 12pt
+}
+
+.mytable > tbody > tr > td,
+.mytable > tbody > tr > th {
+    padding-left: 20px;
+    text-align: center
+}
+
+.mytable > tbody > tr:nth-child(even) {
+    background-color: rgba(54, 33, 160, 0.50);
+}
+
+.hiddencell {
+    background-color: #ffffff
+}
+
+.btn {
+    font-weight:bold
+}
+
+.nav-tabs > .inactive > a > * {
+    color: #000000;
+}
+
+.nav-tabs > .active > a > * {
+    color: rgb(110, 95, 189)
+}

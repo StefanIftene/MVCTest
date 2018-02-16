@@ -17,6 +17,11 @@ namespace MVCTest.Controllers
 
             ViewBag.angajati = new SelectList(query.ToList());
 
+            var querydep = from d in db.departamente
+                           select d.nume;
+
+            ViewBag.departamente = querydep.ToList();
+
             Models.departamente dep = db.departamente.Find(id);
             return View(dep);
             }
@@ -81,6 +86,17 @@ namespace MVCTest.Controllers
             db.delete_angajat(id);
 
             return RedirectToAction("Index", new { id = proid });
+            }
+
+        public ActionResult FindId (string nume)
+            {
+            var idquery = from d in db.departamente
+                     where d.nume == nume
+                     select d.id;
+
+            int depid = idquery.First();
+
+            return RedirectToAction("Index", new { id = depid });
             }
         }
 }

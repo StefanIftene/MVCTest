@@ -3,14 +3,46 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title - BSApp</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <p>Galben?</p>
-    <div>
-        @RenderBody()
+    <nav class="navbar navbar-inverse navbar-fixed-top mynavbar">
+        <div class="container">
+            <div class="navbar-header ">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="@Url.Action("Index","HomePage")"><span class="glyphicon glyphicon-home"></span>  BusinessApp</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Departamente", "Index", "Detalii", new { id = 1 }, new { })</li>
+                    @RenderSection("dropdown_dep", false)
+                    <li>@Html.ActionLink("Proiecte", "Index", "DetaliiProiect", new { id = 1 }, new { })</li>
+                    @RenderSection("dropdown_pro", false)
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container body-content" style="position: relative; top: 100px; left: 100px">
+
+        <div style="float:left; width:100%">@RenderBody()</div>
+
+        <div style="float: left; position: relative; top: 200px">
+            <hr />
+            <footer>
+                @Html.Partial("_Footer")
+            </footer>
+        </div>
     </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 </body>
 </html>

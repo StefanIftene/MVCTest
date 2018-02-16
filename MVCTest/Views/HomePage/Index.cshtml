@@ -1,94 +1,116 @@
 ﻿
 @model MVCTest.Models.HomePageViewModel
 
-    <div style="float:left; width:500px; padding-left:100px" >
-        <h3>Departamente</h3>
-         <table style="border-style:solid; border-width:3px" rules="all" cellspacing=0>
-             <tr style="border-style:solid; border-width:2px">
-                 <th style="border-style:solid; border-width:2px">
-                     Nume Departament
-                 </th>
-                 <th style="border-right-width:3px">
-                     Nr. de angajati
-                 </th>
-                 <th style="border-style:hidden; border-left-style:none"></th>
-                 <th style="border-style:hidden"></th>
-             </tr>
-             @foreach (MVCTest.Models.departamente i in Model.departamente)
-                 {
-                 <tr style="border-style:solid; border-width:1px">
-                    <td>
-                        @Html.DisplayFor(m => i.nume)
-                    </td>
-                     <td style="border-right-width:3px">
-                         @i.angajati.Count()
-                     </td>
-                     <td style="border-style:hidden; border-left-style:none; padding-left:10px">
-                         @Html.ActionLink("Detalii", "Index","Detalii", new { id = i.id}, new { })
-                     </td>
-                     <td style="border-style:hidden; padding-left:10px">
-                         @using (Html.BeginForm("Delete", "HomePage", i, FormMethod.Post))
-                             {
-                             @Html.AntiForgeryToken()
-                             <input type="submit" value="Desfiinteaza" />
-                             }
-                     </td>
-                 </tr>
-                 }
-         </table>
-        <br/>
-            @using (Html.BeginForm("Create", "HomePage", FormMethod.Post))
+
+
+
+<ul class="nav nav-tabs" style="width:50%; min-width:400px">
+    <li class=@(ViewBag.chk ? "inactive" : "active")><a href="@Url.Action("Index")"><h3>Departamente</h3></a></li>
+    <li class=@(ViewBag.chk ? "active" : "inactive")><a href="@Url.Action("Index", new { chk = 1 })"><h3>Proiecte</h3></a></li>
+</ul>
+
+<div style="position:relative; top: 50px; float:left">
+    @{
+        if (ViewBag.chk)
+            {
+            <table class="mytable" cellspacing=0>
+                <tr>
+                    <th>
+                        Nume Proiect
+                    </th>
+                    <th>
+                        Nr. de participanti
+                    </th>
+                    <th class="hiddencell"></th>
+                    <th class="hiddencell"></th>
+                </tr>
+                @foreach (MVCTest.Models.proiecte i in Model.proiecte)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => i.nume)
+                        </td>
+                        <td>
+                            @i.angajati.Count()
+                        </td>
+                        <td class="hiddencell">
+                            <a href="@Url.Action("Index", "DetaliiProiect", new { id = i.id })"><button type="button" class="btn btn-default">Detalii</button></a>
+                        </td>
+                        <td class="hiddencell">
+                            @using (Html.BeginForm("DeleteProiect", "HomePage", i, FormMethod.Post))
+                                {
+                                @Html.AntiForgeryToken()
+                                <input type="submit" value="Opreste" class="btn btn-danger" />
+                                }
+                        </td>
+                    </tr>
+                    }
+            </table>
+            <br />
+            using (Html.BeginForm("CreateProiect", "HomePage", FormMethod.Post))
+                {
+                @Html.AntiForgeryToken();
+                <div style="width:230px; float:left">
+                    @Html.TextBox("newproname", "Proiect nou", new { @class = "form-control" })
+                </div>
+                <input type="submit" value="Creeaza" class="btn btn-default" />
+                @Html.ValidationMessage("newproname", "", new { @class = "text-danger" })
+                }
+            }
+        else
+            {
+            <table class="mytable" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <th>
+                            Nume Departament
+                        </th>
+                        <th>
+                            Nr. de angajati
+                        </th>
+                        <th class="hiddencell"></th>
+                        <th class="hiddencell"></th>
+                    </tr>
+                    @foreach (MVCTest.Models.departamente i in Model.departamente)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => i.nume)
+                            </td>
+                            <td>
+                                @i.angajati.Count()
+                            </td>
+                            <td class="hiddencell">
+                                <a href="@Url.Action("Index", "Detalii", new { id = i.id })"><button type="button" class="btn btn-default">Detalii</button></a>
+                            </td>
+                            <td class="hiddencell">
+                                @using (Html.BeginForm("Delete", "HomePage", i, FormMethod.Post))
+                                    {
+                                    @Html.AntiForgeryToken()
+                                    <input type="submit" value="Desfiinteaza" class="btn btn-sm btn-danger" />
+                                    }
+                            </td>
+                        </tr>
+                        }
+                </tbody>
+            </table>
+            <br />
+            using (Html.BeginForm("Create", "HomePage", FormMethod.Post))
                 {
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.AntiForgeryToken()
-                @Html.TextBox("newdepname")
+                <div style="width:250px; float:left">
+                    @Html.TextBox("newdepname", "Departament nou", new { @class = "form-control" })
+                </div>
+                <input type="submit" value="Infiinteaza" class="btn btn-default" />
                 @Html.ValidationMessage("newdepname", "", new { @class = "text-danger" })
-                <input type="submit" value="Infiinteaza" />
-                }
 
-
-        </div>
-    <div style="float:left; padding-left:200px">
-        <h3>Proiecte</h3>
-        <table style="border-style:solid; border-width:3px" rules="all" cellspacing=0>
-            <tr style="border-style:solid; border-width:2px">
-                <th style="border-style:solid; border-width:2px">
-                    Nume Proiect
-                </th>
-                <th style="border-right-width:3px">
-                    Nr. de participanti
-                </th>
-                <th style="border-style:hidden; border-left-style:none"></th>
-                <th style="border-style:hidden"></th>
-            </tr>
-            @foreach (MVCTest.Models.proiecte i in Model.proiecte)
-                {
-                <tr style="border-style:solid; border-width:1px">
-                    <td>
-                        @Html.DisplayFor(modelItem => i.nume)
-                    </td>
-                    <td style="border-right-width:3px">
-                        @i.angajati.Count()
-                    </td>
-                    <td style="border-style:hidden; border-left-style:none; padding-left:10px">
-                        @Html.ActionLink("Detalii", "Index", "DetaliiProiect", new { id = i.id }, new { })
-                    </td>
-                    <td style="border-style:hidden; padding-left:10px">
-                        @using (Html.BeginForm("DeleteProiect", "HomePage", i, FormMethod.Post))
-                            {
-                            @Html.AntiForgeryToken()
-                            <input type="submit" value="Opreste" />
-                            }
-                    </td>
-                </tr>
                 }
-        </table>
-        <br />
-        @using (Html.BeginForm("CreateProiect", "HomePage", FormMethod.Post))
-            {
-            @Html.AntiForgeryToken();
-            @Html.TextBox("newproname")
-            <input type="submit" value="Incepe"/>
             }
-    </div>
+
+    }
+</div>
+
+
+
 
