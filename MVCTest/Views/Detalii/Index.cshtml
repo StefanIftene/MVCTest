@@ -1,75 +1,81 @@
 ﻿
-@{
-    Layout = null;
-}
-
 @model MVCTest.Models.departamente
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Detalii @Model.nume</title>
-</head>
-<body>
-    <div style="padding-left:200px">
-        <h3>@Html.DisplayFor(model => model.nume)</h3> 
-        @using (Html.BeginForm("ModificaDepartament", "Detalii", FormMethod.Post))
-            {
-            @Html.AntiForgeryToken()
-            @Html.HiddenFor(model => model.id)
-            @Html.EditorFor(model => model.nume)
-            <input type="submit" value="Modifica numele" />
-            }
-        <br/>
-
-        <table border="1" cellspacing="0" rules="all" style="border-width:3px">
-            <tr style="border-width:2px">
-                <th>
-                    Nume angajat
-                </th>
-                <th style="border-right-width:3px">
-                    Data Angajarii
-                </th>
-                <th style="border-style:hidden; border-left-style:none"></th>
-            </tr>
-
-            @foreach (MVCTest.Models.angajati i in Model.angajati)
-                {
-                <tr style="border-width:1px">
-                    <td>
-                        @Html.DisplayFor(m => i.nume) @Html.DisplayFor(m => i.prenume)
-                    </td>
-                    <td style="border-right-width:3px">
-                        @Html.DisplayFor(m => i.data)
-                    </td>
-                    <td style="border-style:hidden; border-left-style:none">
-                        @using (Html.BeginForm("Concediaza", "Detalii", new { id = i.id, proid = Model.id }, FormMethod.Post))
-                            {
-                            @Html.AntiForgeryToken()
-                            <input type="submit" value="Concediaza" />
-                            }
-                    </td>
-                </tr>
-
-                }
-        </table>
-        <br/>
-
-        @using (Html.BeginForm("Transfera", "Detalii", new { id = Model.id }, FormMethod.Post))
-            {
-            @Html.AntiForgeryToken()
-            @Html.DropDownList("angajati", "Angajati");
-            <input type="submit" value="Transfera" />
-            }
-        <br/>
-        @using (Html.BeginForm("Angajeaza", "Detalii", new { id = Model.id }, FormMethod.Post))
-            {
-            @Html.AntiForgeryToken()
-            @Html.TextBox("TextNume", "Nume")
-            @Html.TextBox("TextPrenume", "Prenume")
-            <input type="submit" value="Angajeaza" />
-            }
+<h3>@Html.DisplayFor(model => model.nume)</h3>
+<br />
+<br />
+@using (Html.BeginForm("ModificaDepartament", "Detalii", FormMethod.Post))
+    {
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.id)
+    <div style="float: left">
+        @Html.TextBox("nume", Model.nume, new { @class = "form-control" })
     </div>
-</body>
-</html>
+    <input type="submit" class="btn btn-default" value="Modifica numele" />
+    }
+<br />
+
+<table cellspacing="0" class="mytable">
+    <tr>
+        <th>
+            Nume angajat
+        </th>
+        <th>
+            Data Angajarii
+        </th>
+        <th class="hiddencell"></th>
+    </tr>
+
+    @foreach (MVCTest.Models.angajati i in Model.angajati)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(m => i.nume) @Html.DisplayFor(m => i.prenume)
+            </td>
+            <td>
+                @Html.DisplayFor(m => i.data)
+            </td>
+            <td class="hiddencell">
+                @using (Html.BeginForm("Concediaza", "Detalii", new { id = i.id, proid = Model.id }, FormMethod.Post))
+                    {
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Concediaza" class="btn btn-danger" />
+                    }
+            </td>
+        </tr>
+
+        }
+</table>
+<br />
+
+@using (Html.BeginForm("Transfera", "Detalii", new { id = Model.id }, FormMethod.Post))
+    {
+    @Html.AntiForgeryToken()
+    @Html.DropDownList("angajati", "Angajati");
+    <input type="submit" value="Transfera" class="btn btn-default" />
+    }
+<br />
+@using (Html.BeginForm("Angajeaza", "Detalii", new { id = Model.id }, FormMethod.Post))
+    {
+    @Html.AntiForgeryToken()
+    <div style="float: left">
+        @Html.TextBox("TextNume", "Nume", new { @class = "form-control" })
+    </div>
+    <div style="float: left">
+        @Html.TextBox("TextPrenume", "Prenume", new { @class = "form-control" })
+    </div>
+    <input type="submit" value="Angajeaza" class="btn btn-default" />
+    }
+
+@section dropdown_dep
+        {
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.nume<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            @foreach (string i in ViewBag.departamente)
+                {
+                <li><a href="@Url.Action("FindId", new { nume = i })">@i</a></li>
+                }
+        </ul>
+    </li>
+}

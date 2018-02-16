@@ -13,6 +13,12 @@ namespace MVCTest.Controllers
             {
             Models.proiecte proiect = db.proiecte.Find(id);
             Models.DetaliiProiectViewModel mod = new Models.DetaliiProiectViewModel(proiect);
+
+            var query = from p in db.proiecte
+                        select p.nume;
+
+            ViewBag.proiecte = query.ToList();
+
             return View(mod);
             }
 
@@ -45,6 +51,17 @@ namespace MVCTest.Controllers
                     db.minusproiect(id, proid);
                     }
                 }
+
+            return RedirectToAction("Index", new { id = proid });
+            }
+
+        public ActionResult FindId(string nume)
+            {
+            var idquery = from p in db.proiecte
+                          where p.nume == nume
+                          select p.id;
+
+            int proid = idquery.First();
 
             return RedirectToAction("Index", new { id = proid });
             }

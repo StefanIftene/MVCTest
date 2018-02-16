@@ -12,11 +12,15 @@ namespace MVCTest.Controllers
         Models.businessdbEntities db = new Models.businessdbEntities();
 
         // GET: HomePage
-        public ActionResult Index()
+        public ActionResult Index(int chk = 0)
             {
             Models.HomePageViewModel mod = new Models.HomePageViewModel();
             mod.departamente = db.departamente.ToList();
             mod.proiecte = db.proiecte.ToList();
+            ViewBag.Title = "Home";
+            if (chk == 1)
+                ViewBag.chk = true;
+            else ViewBag.chk = false;
             return View(mod);
             }
 
@@ -53,7 +57,7 @@ namespace MVCTest.Controllers
         public ActionResult DeleteProiect(Models.proiecte pro)
             {
             db.delete_proiect(pro.id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { chk = 1 });
             }
 
         [HttpPost]
@@ -68,7 +72,7 @@ namespace MVCTest.Controllers
                 db.SaveChanges();
                 }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { chk = 1 });
             }
 
         }
