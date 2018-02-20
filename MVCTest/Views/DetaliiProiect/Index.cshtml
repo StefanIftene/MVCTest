@@ -11,10 +11,12 @@
         @Html.HiddenFor(model => model.id)
         <div style="float: left">
         @Html.EditorFor(model => model.nume, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessage("nume", new { @class = "text-danger" })
         </div>
         <input type="submit" value="Modifica numele" class="btn btn-default" />
         }
     <br />
+    <br/>
     @using (Html.BeginForm("Schimbari", "DetaliiProiect", FormMethod.Post))
         {
         @Html.AntiForgeryToken()
@@ -45,6 +47,7 @@
         <input type="submit" value="Salveaza schimbarile" class="btn btn-default" />
         }
 </div>
+
 @section dropdown_pro
     {
 <li class="dropdown">
@@ -57,3 +60,8 @@
     </ul>
 </li>
     }
+
+@section Scripts
+    {
+    @Scripts.Render("~/bundles/jqueryval")
+    }  

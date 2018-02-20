@@ -8,16 +8,16 @@ namespace MVCTest.Models
     {
     public class DetaliiViewModel: departamente
         {
-        [RegularExpression("(?!^Nume$)[A-Z][a-z]*")]
+        [Required(ErrorMessage = "Introduceti un nume!")]
+        [RegularExpression("(?!^Nume$)[A-Z][a-z]*", ErrorMessage="Nume incorect")]
         public string nume_angajat { get; set; }
 
-        [RegularExpression("(?!^Prenume$)[A-Z][a-z]*")]
+        [Required(ErrorMessage = "Introduceti un prenume!")]
+        [RegularExpression("(?!^Prenume$)[A-Z][a-z]*", ErrorMessage="Prenume incorect")]
         public string prenume_angajat { get; set; }
 
         public DetaliiViewModel (departamente dep)
             {
-            nume_angajat = "Nume";
-            prenume_angajat = "Prenume";
             id = dep.id;
             nume = dep.nume;
             angajati = dep.angajati;

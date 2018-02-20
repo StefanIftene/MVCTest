@@ -53,6 +53,7 @@
                 <fieldset>
                     <div style="width:230px; float:left">
                         @Html.TextBox("newproname", "Proiect nou", new { @class = "form-control" })
+                        @Html.ValidationMessage("newproname", new { @class = "text-danger" })
                     </div>
                     <input type="submit" value="Creeaza" class="btn btn-default" />
                 </fieldset>
@@ -102,6 +103,7 @@
                 <fieldset>
                     <div style="width:250px; float:left">
                         @Html.TextBox("newdepname", "Departament nou", new { @class = "form-control" })
+                        @Html.ValidationMessage("newdepname", new { @class = "text-danger" })
                     </div>
                     <input type="submit" value="Infiinteaza" class="btn btn-default" />
                 </fieldset>
@@ -114,10 +116,10 @@
 
 </div>
 
-@section Scripts
-{
+@section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
 
 
 

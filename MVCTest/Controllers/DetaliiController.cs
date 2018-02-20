@@ -32,7 +32,7 @@ namespace MVCTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ModificaDepartament([Bind (Include = "id, nume")] DetaliiViewModel model)
+        public ActionResult ModificaDepartament (DetaliiViewModel model)
             {
 
             if (ModelState.IsValid)
