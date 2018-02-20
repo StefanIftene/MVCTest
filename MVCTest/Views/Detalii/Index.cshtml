@@ -1,5 +1,5 @@
 ﻿
-@model MVCTest.Models.departamente
+@model MVCTest.Models.DetaliiViewModel
 
 <h3>@Html.DisplayFor(model => model.nume)</h3>
 <br />
@@ -55,14 +55,16 @@
     <input type="submit" value="Transfera" class="btn btn-default" />
     }
 <br />
-@using (Html.BeginForm("Angajeaza", "Detalii", new { id = Model.id }, FormMethod.Post))
+@using (Html.BeginForm("Angajeaza", "Detalii", FormMethod.Post))
     {
     @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.nume)
     <div style="float: left">
-        @Html.TextBox("TextNume", "Nume", new { @class = "form-control" })
+        @Html.TextBox("nume_angajat", Model.nume_angajat, new { @class = "form-control" })
     </div>
     <div style="float: left">
-        @Html.TextBox("TextPrenume", "Prenume", new { @class = "form-control" })
+        @Html.TextBox("prenume_angajat", Model.prenume_angajat, new { @class = "form-control" })
     </div>
     <input type="submit" value="Angajeaza" class="btn btn-default" />
     }

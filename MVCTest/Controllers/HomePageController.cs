@@ -11,16 +11,18 @@ namespace MVCTest.Controllers
     {
         Models.businessdbEntities db = new Models.businessdbEntities();
 
-        // GET: HomePage
-        public ActionResult Index(int chk = 0)
+        public ActionResult Index(int chk = 0, string err = "")
             {
             Models.HomePageViewModel mod = new Models.HomePageViewModel();
             mod.departamente = db.departamente.ToList();
             mod.proiecte = db.proiecte.ToList();
+
+            ViewBag.Error = err;
             ViewBag.Title = "Home";
             if (chk == 1)
                 ViewBag.chk = true;
             else ViewBag.chk = false;
+
             return View(mod);
             }
 
@@ -28,9 +30,10 @@ namespace MVCTest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete (Models.departamente dep)
             {
-            if (dep.angajati.Count() == 0)
+            Models.departamente d = db.departamente.Find(dep.id);
+
+            if (d.angajati.Count() == 0)
                 {
-                Models.departamente d = db.departamente.Find(dep.id);
                 db.departamente.Remove(d);
                 db.SaveChanges();
                 }
@@ -39,8 +42,9 @@ namespace MVCTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create ([Bind (Include = "newdepname")] Models.HomePageViewModel model)
+        public ActionResult Create ( Models.HomePageViewModel model)
             {
+            string err = "";
             if (ModelState.IsValid)
                 {
                 Models.departamente dep = new Models.departamente();
@@ -49,7 +53,12 @@ namespace MVCTest.Controllers
                 db.SaveChanges();
                 }
 
-            return RedirectToAction("Index");
+            else
+                {
+                err = ModelState.Values.First().Errors[0].ErrorMessage;
+                }
+
+            return RedirectToAction("Index", new { chk = 0, err });
             }
 
         [HttpPost]
@@ -62,8 +71,9 @@ namespace MVCTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateProiect ([Bind(Include="newproname")] Models.HomePageViewModel model)
+        public ActionResult CreateProiect ( Models.HomePageViewModel model)
             {
+            string err = "";
             if (ModelState.IsValid)
                 {
                 Models.proiecte pro = new Models.proiecte();
@@ -72,7 +82,12 @@ namespace MVCTest.Controllers
                 db.SaveChanges();
                 }
 
-            return RedirectToAction("Index", new { chk = 1 });
+            else
+                {
+                err = ModelState.Values.First().Errors[0].ErrorMessage;
+                }
+
+            return RedirectToAction("Index", new { chk = 1, err });
             }
 
         }

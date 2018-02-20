@@ -9,7 +9,7 @@
     <li class=@(ViewBag.chk ? "active" : "inactive")><a href="@Url.Action("Index", new { chk = 1 })"><h3>Proiecte</h3></a></li>
 </ul>
 
-<div style="position:relative; top: 50px; float:left">
+<div style="position:relative; top: 50px">
     @{
         if (ViewBag.chk)
             {
@@ -50,11 +50,12 @@
             using (Html.BeginForm("CreateProiect", "HomePage", FormMethod.Post))
                 {
                 @Html.AntiForgeryToken();
-                <div style="width:230px; float:left">
-                    @Html.TextBox("newproname", "Proiect nou", new { @class = "form-control" })
-                </div>
-                <input type="submit" value="Creeaza" class="btn btn-default" />
-                @Html.ValidationMessage("newproname", "", new { @class = "text-danger" })
+                <fieldset>
+                    <div style="width:230px; float:left">
+                        @Html.TextBox("newproname", "Proiect nou", new { @class = "form-control" })
+                    </div>
+                    <input type="submit" value="Creeaza" class="btn btn-default" />
+                </fieldset>
                 }
             }
         else
@@ -97,20 +98,26 @@
             <br />
             using (Html.BeginForm("Create", "HomePage", FormMethod.Post))
                 {
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.AntiForgeryToken()
-                <div style="width:250px; float:left">
-                    @Html.TextBox("newdepname", "Departament nou", new { @class = "form-control" })
-                </div>
-                <input type="submit" value="Infiinteaza" class="btn btn-default" />
-                @Html.ValidationMessage("newdepname", "", new { @class = "text-danger" })
-
+                <fieldset>
+                    <div style="width:250px; float:left">
+                        @Html.TextBox("newdepname", "Departament nou", new { @class = "form-control" })
+                    </div>
+                    <input type="submit" value="Infiinteaza" class="btn btn-default" />
+                </fieldset>
                 }
             }
 
     }
+
+    @Html.Label((string)ViewBag.Error, new { @class = "text-danger" })
+
 </div>
 
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
 
 
 
