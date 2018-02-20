@@ -14,9 +14,8 @@ namespace MVCTest.Models
         public angajatcheck()
             { }
         }
-    public class DetaliiProiectViewModel
+    public class DetaliiProiectViewModel: proiecte
         {
-        public proiecte proiect { get; set; }
         public angajatcheck[] totiangajatii { get; set; }
 
         public DetaliiProiectViewModel(proiecte pro)
@@ -25,7 +24,9 @@ namespace MVCTest.Models
             businessdbEntities db = new businessdbEntities();
             int count = (from a in db.angajati select a).Count();
             totiangajatii = new angajatcheck[count];
-            proiect = pro;
+
+            id = pro.id;
+            nume = pro.nume;
             int i = 0;
 
             foreach (angajati a in db.angajati)
@@ -34,7 +35,7 @@ namespace MVCTest.Models
                 ang.id = a.id;
                 ang.nume = a.nume + " " + a.prenume;
 
-                if (chk(a.id, proiect.id))
+                if (chk(a.id, id))
                     {
                     ang.check = true;
                     }
@@ -47,8 +48,9 @@ namespace MVCTest.Models
                 i++;
                 }
             }
-        public DetaliiProiectViewModel()
-            { }
+
+        public DetaliiProiectViewModel() { }
+
         public static bool chk (int angid, int proid)
             {
             businessdbEntities db = new businessdbEntities();

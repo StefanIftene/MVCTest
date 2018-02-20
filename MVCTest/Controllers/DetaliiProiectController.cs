@@ -26,18 +26,21 @@ namespace MVCTest.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Modifica (Models.DetaliiProiectViewModel model)
             {
-            int id = model.proiect.id;
-            Models.proiecte pro = db.proiecte.Find(id);
-            pro.nume = model.proiect.nume;
-            db.SaveChanges();
-            return RedirectToAction("Index", new { id = id });
+            if (ModelState.IsValid)
+                {
+                int id = model.id;
+                Models.proiecte pro = db.proiecte.Find(id);
+                pro.nume = model.nume;
+                db.SaveChanges();
+                }
+            return RedirectToAction("Index", new { model.id });
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Schimbari(Models.DetaliiProiectViewModel model)
             {
-            int proid = model.proiect.id;
+            int proid = model.id;
 
             for (int i = 0; i < model.totiangajatii.Count(); i++)
                 {

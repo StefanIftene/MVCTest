@@ -25,10 +25,9 @@ namespace MVCTest.Models
 
         public string nume { get; set; }
 
+
         public string prenume { get; set; }
 
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         public System.DateTime data { get; set; }
 
         public int depid { get; set; }

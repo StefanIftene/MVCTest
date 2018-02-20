@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVCTest.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -9,34 +10,39 @@ namespace MVCTest.Controllers
 {
     public class DetaliiController : Controller
     {
-        Models.businessdbEntities db = new Models.businessdbEntities();
+        businessdbEntities db = new businessdbEntities();
         public ActionResult Index(int id)
             {
-            var query = from a in db.angajati
+            var query_angajati = from a in db.angajati
                         select a.nume + " " + a.prenume;
 
-            ViewBag.angajati = new SelectList(query.ToList());
+            ViewBag.angajati = new SelectList(query_angajati.ToList());
 
-            var querydep = from d in db.departamente
+            var query_departamente = from d in db.departamente
                            select d.nume;
 
-            ViewBag.departamente = querydep.ToList();
+            ViewBag.departamente = query_departamente.ToList();
 
-            Models.departamente dep = db.departamente.Find(id);
-            return View(dep);
+            departamente departament = db.departamente.Find(id);
+
+            DetaliiViewModel model = new DetaliiViewModel(departament);
+
+            return View(model);
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ModificaDepartament(Models.departamente dep)
+        public ActionResult ModificaDepartament([Bind (Include = "id, nume")] DetaliiViewModel model)
             {
+
             if (ModelState.IsValid)
                 {
-                db.Entry(dep).State = EntityState.Modified;
+                departamente departament = db.departamente.Find(model.id);
+                departament.nume = model.nume;
                 db.SaveChanges();
                 }
 
-            return RedirectToAction("Index", new { id = dep.id });
+            return RedirectToAction("Index", new { model.id });
             }
 
         [HttpPost]
@@ -45,38 +51,40 @@ namespace MVCTest.Controllers
             {
             string nume = form["angajati"].ToString();
 
-            foreach (Models.angajati a in db.angajati)
+            foreach (angajati angajat in db.angajati)
                 {
-                if (nume == a.nume + " " + a.prenume)
+                if (nume == angajat.nume + " " + angajat.prenume)
                     {
-                    a.depid = id;
-                    Models.departamente dep = db.departamente.Find(id);
-                    dep.angajati.Add(a);                   
+                    angajat.depid = id;
+                    departamente dep = db.departamente.Find(id);
+                    dep.angajati.Add(angajat);                   
                     break;
                     }
                 }
 
             db.SaveChanges();
-            return RedirectToAction("Index", new { id = id });
+            return RedirectToAction("Index", new { id });
             }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Angajeaza (int id, FormCollection form)
+        public ActionResult Angajeaza ( DetaliiViewModel model)
             {
-            string nume = form["TextNume"].ToString();
-            string prenume = form["TextPrenume"].ToString();
-            Models.angajati ang = new Models.angajati();
+            if (ModelState.IsValid)
+                {
+                angajati angjat_nou = new angajati();
 
-            ang.nume = nume;
-            ang.prenume = prenume;
-            ang.conducere = false;
-            ang.depid = id;
-            ang.data = DateTime.Now;
+                angjat_nou.nume = model.nume_angajat;
+                angjat_nou.prenume = model.prenume_angajat;
+                angjat_nou.conducere = false;
+                angjat_nou.depid = model.id;
+                angjat_nou.data = DateTime.Now;
 
-            db.angajati.Add(ang);
-            db.SaveChanges();
+                db.angajati.Add(angjat_nou);
+                db.SaveChanges();
+                }
 
-            return RedirectToAction("Index", new { id = id });
+            return RedirectToAction("Index", new { model.id });
             }
 
         [HttpPost]
@@ -90,13 +98,11 @@ namespace MVCTest.Controllers
 
         public ActionResult FindId (string nume)
             {
-            var idquery = from d in db.departamente
-                     where d.nume == nume
-                     select d.id;
+            var query_id = from d in db.departamente
+                          where d.nume == nume
+                          select d.id;
 
-            int depid = idquery.First();
-
-            return RedirectToAction("Index", new { id = depid });
+            return RedirectToAction("Index", new { id = query_id.First() });
             }
         }
 }

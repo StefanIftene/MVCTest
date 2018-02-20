@@ -227,6 +227,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BusinessModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\DetaliiViewModel.cs" />
+    <Compile Include="Models\DeferValidation.cs" />
     <Compile Include="Models\DetaliiProiectViewModel.cs" />
     <Compile Include="Models\HomePageViewModel.cs" />
     <Compile Include="Models\departamente.cs">
@@ -234,6 +236,7 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\membri_proiect_Result.cs">
       <DependentUpon>BusinessModel.tt</DependentUpon>
     </Compile>

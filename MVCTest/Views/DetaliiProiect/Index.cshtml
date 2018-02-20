@@ -2,15 +2,15 @@
 @model MVCTest.Models.DetaliiProiectViewModel
 
 <div style="padding-left:200px">
-    <h3>@Model.proiect.nume</h3>
+    <h3>@Model.nume</h3>
     <br/>
     <br/>
     @using (Html.BeginForm("Modifica", "DetaliiProiect", FormMethod.Post))
         {
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.proiect.id)
+        @Html.HiddenFor(model => model.id)
         <div style="float: left">
-        @Html.EditorFor(model => model.proiect.nume, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.EditorFor(model => model.nume, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <input type="submit" value="Modifica numele" class="btn btn-default" />
         }
@@ -41,14 +41,14 @@
                 }
         </table>
         <br />
-        @Html.HiddenFor(model => model.proiect.id)
+        @Html.HiddenFor(model => model.id)
         <input type="submit" value="Salveaza schimbarile" class="btn btn-default" />
         }
 </div>
 @section dropdown_pro
     {
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.proiect.nume<span class="caret"></span></a>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.nume<span class="caret"></span></a>
     <ul class="dropdown-menu">
         @foreach (string i in ViewBag.proiecte)
             {
