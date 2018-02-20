@@ -23,12 +23,14 @@ namespace MVCTest.Models
     public class proiecteMetadata
         {
         [Display (Name = "Nume Proiect")]
-        [RegularExpression("(?!^Proiect nou$)\\w[\\w ]*", ErrorMessage = "Nume incorect")]
+        [Required (ErrorMessage = "Introduceti un nume de proiect!")]
+        [RegularExpression ("(?!^Proiect nou$)\\w[\\w ]*", ErrorMessage = "Nume incorect!")]
         public string nume { get; set; }
         }
 
     public class angajatiMetadata
         {
+        
         [Display (Name = "Nume")]
         public string nume { get; set; }
 
@@ -38,7 +40,7 @@ namespace MVCTest.Models
         [Display (Name = "Data Angajarii")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
-        public System.DateTime data { get; set; }
+        public DateTime data { get; set; }
         }
 
     }
