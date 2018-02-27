@@ -11,8 +11,7 @@ namespace MVCTest.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class angajati
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,20 +21,13 @@ namespace MVCTest.Models
         }
     
         public int id { get; set; }
-
         public string nume { get; set; }
-
-
         public string prenume { get; set; }
-
         public System.DateTime data { get; set; }
-
         public int depid { get; set; }
-
         public bool conducere { get; set; }
     
         public virtual departamente departamente { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<proiecte> proiecte { get; set; }
     }

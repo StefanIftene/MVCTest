@@ -13,22 +13,33 @@ namespace MVCTest.Controllers
 
         public ActionResult Index(int chk = 0, string err = "")
             {
-            Models.HomePageViewModel mod = new Models.HomePageViewModel();
-            mod.departamente = db.departamente.ToList();
-            mod.proiecte = db.proiecte.ToList();
-
-            ViewBag.Error = err;
             ViewBag.Title = "Home";
             if (chk == 1)
                 ViewBag.chk = true;
             else ViewBag.chk = false;
 
-            return View(mod);
+            return View();
+            }
+
+        public ActionResult Departamente ()
+            {
+            Models.DepartamentePVM model = new Models.DepartamentePVM();
+            model.departamente = db.departamente.ToList();
+
+            return PartialView("_Departamente", model);
+            }
+
+        public ActionResult Proiecte()
+            {
+            Models.ProiectePVM model = new Models.ProiectePVM();
+            model.proiecte = db.proiecte.ToList();
+
+            return PartialView("_Proiecte", model);
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete (Models.departamente dep)
+        public ActionResult DeleteDepartament (Models.departamente dep)
             {
             Models.departamente d = db.departamente.Find(dep.id);
 
@@ -37,14 +48,13 @@ namespace MVCTest.Controllers
                 db.departamente.Remove(d);
                 db.SaveChanges();
                 }
-            return RedirectToAction("Index");
+            return RedirectToAction("Departamente");
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create ( Models.HomePageViewModel model)
+        public ActionResult CreateDepartament ( Models.DepartamentePVM model)
             {
-            string err = "";
             if (ModelState.IsValid)
                 {
                 Models.departamente dep = new Models.departamente();
@@ -53,27 +63,21 @@ namespace MVCTest.Controllers
                 db.SaveChanges();
                 }
 
-            else
-                {
-                err = ModelState.Values.First().Errors[0].ErrorMessage;
-                }
-
-            return RedirectToAction("Index", new { chk = 0, err });
+            return RedirectToAction("Departamente");
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteProiect(Models.proiecte pro)
+        public ActionResult DeleteProiect (Models.proiecte pro)
             {
             db.delete_proiect(pro.id);
-            return RedirectToAction("Index", new { chk = 1 });
+            return RedirectToAction("Proiecte");
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateProiect ( Models.HomePageViewModel model)
+        public ActionResult CreateProiect ( Models.ProiectePVM model)
             {
-            string err = "";
             if (ModelState.IsValid)
                 {
                 Models.proiecte pro = new Models.proiecte();
@@ -82,13 +86,8 @@ namespace MVCTest.Controllers
                 db.SaveChanges();
                 }
 
-            else
-                {
-                err = ModelState.Values.First().Errors[0].ErrorMessage;
-                }
-
-            return RedirectToAction("Index", new { chk = 1, err });
+            return RedirectToAction("Proiecte");
             }
-
+            
         }
 }

@@ -1,0 +1,49 @@
+﻿@{ Layout = null; }
+
+@model MVCTest.Models.ProiectePVM
+    
+<table class="mytable" cellspacing=0>
+    <tr>
+        <th>
+            Nume Proiect
+        </th>
+        <th>
+            Nr. de participanti
+        </th>
+        <th class="hiddencell"></th>
+        <th class="hiddencell"></th>
+    </tr>
+    @foreach (MVCTest.Models.proiecte i in Model.proiecte)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => i.nume)
+            </td>
+            <td>
+                @i.angajati.Count()
+            </td>
+            <td class="hiddencell">
+                <a href="@Url.Action("Index", "DetaliiProiect", new { id = i.id })"><button type="button" class="btn btn-default">Detalii</button></a>
+            </td>
+            <td class="hiddencell">
+                @using (Ajax.BeginForm("DeleteProiect", "HomePage", i, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "div_partial", Confirm = "Sigur?"}))
+                    {
+                    @Html.AntiForgeryToken()
+                    <input type="submit" value="Opreste" class="btn btn-danger" />
+                    }
+            </td>
+        </tr>
+        }
+</table>
+<br />
+@using (Ajax.BeginForm("CreateProiect", "HomePage", new AjaxOptions { UpdateTargetId = "div_partial" }))
+    {
+    @Html.AntiForgeryToken();
+    <fieldset>
+        <div style="width:230px; float:left">
+            @Html.TextBox("newproname", "Proiect nou", new { @class = "form-control" })
+            @Html.ValidationMessage("newproname", new { @class = "text-danger" })
+        </div>
+        <input type="submit" value="Creeaza" class="btn btn-default" />
+    </fieldset>
+    }

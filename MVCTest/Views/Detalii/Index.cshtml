@@ -1,89 +1,17 @@
-﻿
-@model MVCTest.Models.DetaliiViewModel
-
-<h3>@Html.DisplayFor(model => model.nume)</h3>
-<br />
-<br />
-@using (Html.BeginForm("ModificaDepartament", "Detalii", FormMethod.Post))
-    {
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.id)
-    @Html.Hidden("nume_angajat", "N")
-    @Html.Hidden("prenume_angajat", "P")
-    <div style="float: left">
-        @Html.TextBox("nume", Model.nume, new { @class = "form-control" })
-        @Html.ValidationMessage("nume", new { @class = "text-danger"})
-    </div>
-    <input type="submit" class="btn btn-default" value="Modifica numele" />
-    }
-<br />
-<br/>
-<div>
-    <table cellspacing="0" class="mytable">
-        <tr>
-            <th>
-                Nume angajat
-            </th>
-            <th>
-                Data Angajarii
-            </th>
-            <th class="hiddencell"></th>
-        </tr>
-
-        @foreach (MVCTest.Models.angajati i in Model.angajati)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => i.nume) @Html.DisplayFor(m => i.prenume)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => i.data)
-                </td>
-                <td class="hiddencell">
-                    @using (Html.BeginForm("Concediaza", "Detalii", new { id = i.id, proid = Model.id }, FormMethod.Post))
-                        {
-                        @Html.AntiForgeryToken()
-                        <input type="submit" value="Concediaza" class="btn btn-danger" />
-                        }
-                </td>
-            </tr>
-
-            }
-    </table>
+﻿<div id="div_content">
+    @Html.Action("Content", new { id = ViewBag.Id})
 </div>
-<br />
-
-@using (Html.BeginForm("Transfera", "Detalii", new { id = Model.id }, FormMethod.Post))
-    {
-    @Html.AntiForgeryToken()
-    @Html.DropDownList("angajati", "Angajati");
-    <input type="submit" value="Transfera" class="btn btn-default" />
-    }
-<br />
-@using (Html.BeginForm("Angajeaza", "Detalii", FormMethod.Post))
-    {
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.id)
-    @Html.HiddenFor(model => model.nume)
-    <div style="float: left">
-        @Html.TextBox("nume_angajat", "Nume", new { @class = "form-control" })
-        @Html.ValidationMessage("nume_angajat", new { @class = "text-danger" })
-    </div>
-    <div style="float: left">
-        @Html.TextBox("prenume_angajat", "Prenume", new { @class = "form-control" })
-        @Html.ValidationMessage("prenume_angajat", new { @class = "text-danger" })
-    </div>
-    <input type="submit" value="Angajeaza" class="btn btn-default" />
-    }
 
 @section dropdown_dep
         {
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.nume<span class="caret"></span></a>
+        <a id="dd_departamente" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@ViewBag.Title<span class="caret"></span></a>
         <ul class="dropdown-menu">
             @foreach (string i in ViewBag.departamente)
-                {
-                <li><a href="@Url.Action("FindId", new { nume = i })">@i</a></li>
+                {if (i != ViewBag.Title )
+                    {
+                    <li><a href="@Url.Action("FindId", new { nume = i })">@i</a></li>
+                    }
                 }
         </ul>
     </li>
@@ -92,4 +20,10 @@
 @section Scripts 
     {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery.ajax")
+    <script type="text/javascript">
+        function updateName() {
+            $("#dd_departamente").html($("#h_nume").html() + '<span class="caret"></span>');
+        }
+    </script>
     }

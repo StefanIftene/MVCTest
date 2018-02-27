@@ -1,0 +1,50 @@
+﻿@{ Layout = null; }
+
+@model MVCTest.Models.DetaliiProiectViewModel
+
+<div style="padding-left:200px">
+    <h3 id="h_nume">@Model.nume</h3>
+    <br />
+    <br />
+    @using (Ajax.BeginForm("Modifica", new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "h_nume", OnSuccess = "updateName();" }))
+        {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.id)
+        <div style="float: left">
+            @Html.EditorFor(model => model.nume, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessage("nume", new { @class = "text-danger" })
+        </div>
+        <input type="submit" value="Modifica numele" class="btn btn-default" />
+        }
+    <br />
+    <br />
+    @using (Ajax.BeginForm("Schimbari", "DetaliiProiect", new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content" }))
+        {
+        @Html.AntiForgeryToken()
+        <table class="mytable" cellspacing=0>
+            <tr>
+                <th>
+                    Nume Angajat
+                </th>
+                <th class="hiddencell">
+                    Participant
+                </th>
+            </tr>
+            @for (int i = 0; i < Model.totiangajatii.Count(); i++)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.totiangajatii[i].nume)
+                    </td>
+                    <td class="hiddencell">
+                        @Html.EditorFor(model => model.totiangajatii[i].check)
+                        @Html.HiddenFor(model => model.totiangajatii[i].id)
+                    </td>
+                </tr>
+                }
+        </table>
+        <br />
+        @Html.HiddenFor(model => model.id)
+        <input type="submit" value="Salveaza schimbarile" class="btn btn-default" />
+        }
+</div>

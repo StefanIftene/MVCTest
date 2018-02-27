@@ -13,36 +13,54 @@ namespace MVCTest.Controllers
         businessdbEntities db = new businessdbEntities();
         public ActionResult Index(int id)
             {
-            var query_angajati = from a in db.angajati
-                        select a.nume + " " + a.prenume;
-
-            ViewBag.angajati = new SelectList(query_angajati.ToList());
+            ViewBag.Id = id;
 
             var query_departamente = from d in db.departamente
-                           select d.nume;
+                                     select d.nume;
 
             ViewBag.departamente = query_departamente.ToList();
+
+            var query_nume = from d in db.departamente
+                            where d.id == id
+                            select d.nume;
+
+            string nume = query_nume.ToList().FirstOrDefault();
+
+            ViewBag.Title = nume;
+
+            return View();
+            }
+
+        public ActionResult Content (int id)
+            {
+
+            var query_angajati = from a in db.angajati
+                                 select a.nume + " " + a.prenume;
+
+            ViewBag.angajati = new SelectList(query_angajati.ToList());
 
             departamente departament = db.departamente.Find(id);
 
             DetaliiViewModel model = new DetaliiViewModel(departament);
 
-            return View(model);
+            return PartialView("_DetaliiDepartamentContent", model);
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ModificaDepartament (DetaliiViewModel model)
+        public string ModificaDepartament (DetaliiViewModel model)
             {
+            departamente departament = db.departamente.Find(model.id);
 
             if (ModelState.IsValid)
                 {
-                departamente departament = db.departamente.Find(model.id);
                 departament.nume = model.nume;
                 db.SaveChanges();
                 }
 
-            return RedirectToAction("Index", new { model.id });
+            else model.nume = departament.nume;
+
+            return model.nume;
             }
 
         [HttpPost]
@@ -63,7 +81,7 @@ namespace MVCTest.Controllers
                 }
 
             db.SaveChanges();
-            return RedirectToAction("Index", new { id });
+            return RedirectToAction("Content", new { id });
             }
 
         [HttpPost]
@@ -84,7 +102,7 @@ namespace MVCTest.Controllers
                 db.SaveChanges();
                 }
 
-            return RedirectToAction("Index", new { model.id });
+            return RedirectToAction("Content", new { model.id });
             }
 
         [HttpPost]
@@ -93,7 +111,7 @@ namespace MVCTest.Controllers
             {
             db.delete_angajat(id);
 
-            return RedirectToAction("Index", new { id = proid });
+            return RedirectToAction("Content", new { id = proid });
             }
 
         public ActionResult FindId (string nume)
