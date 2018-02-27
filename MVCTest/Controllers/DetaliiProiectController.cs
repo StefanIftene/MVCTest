@@ -11,29 +11,44 @@ namespace MVCTest.Controllers
         Models.businessdbEntities db = new Models.businessdbEntities();
         public ActionResult Index(int id)
             {
-            Models.proiecte proiect = db.proiecte.Find(id);
-            Models.DetaliiProiectViewModel mod = new Models.DetaliiProiectViewModel(proiect);
+            var query_name = from p in db.proiecte
+                             where p.id == id
+                             select p.nume;
+            ViewBag.Title = query_name.ToList().FirstOrDefault();
 
-            var query = from p in db.proiecte
+            var query_proiecte = from p in db.proiecte
                         select p.nume;
 
-            ViewBag.proiecte = query.ToList();
+            ViewBag.proiecte = query_proiecte.ToList();
+            ViewBag.Id = id;
 
-            return View(mod);
+            return View();
+            }
+
+        public ActionResult Content (int id)
+            {
+            Models.proiecte proiect = db.proiecte.Find(id);
+            Models.DetaliiProiectViewModel model = new Models.DetaliiProiectViewModel(proiect);
+
+            return PartialView("_Content", model);
             }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Modifica (Models.DetaliiProiectViewModel model)
+        public string Modifica (Models.DetaliiProiectViewModel model)
             {
+            int id = model.id;
+            Models.proiecte pro = db.proiecte.Find(id);
+
             if (ModelState.IsValid)
                 {
-                int id = model.id;
-                Models.proiecte pro = db.proiecte.Find(id);
                 pro.nume = model.nume;
                 db.SaveChanges();
                 }
-            return RedirectToAction("Index", new { model.id });
+
+            else model.nume = pro.nume;
+
+            return model.nume;
             }
 
         [HttpPost]
@@ -55,7 +70,7 @@ namespace MVCTest.Controllers
                     }
                 }
 
-            return RedirectToAction("Index", new { id = proid });
+            return RedirectToAction("Content", new { id = proid });
             }
 
         public ActionResult FindId(string nume)

@@ -1,61 +1,18 @@
-﻿
-@model MVCTest.Models.DetaliiProiectViewModel
-
-<div style="padding-left:200px">
-    <h3>@Model.nume</h3>
-    <br/>
-    <br/>
-    @using (Html.BeginForm("Modifica", "DetaliiProiect", FormMethod.Post))
-        {
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.id)
-        <div style="float: left">
-        @Html.EditorFor(model => model.nume, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessage("nume", new { @class = "text-danger" })
-        </div>
-        <input type="submit" value="Modifica numele" class="btn btn-default" />
-        }
-    <br />
-    <br/>
-    @using (Html.BeginForm("Schimbari", "DetaliiProiect", FormMethod.Post))
-        {
-        @Html.AntiForgeryToken()
-        <table class="mytable" cellspacing=0>
-            <tr >
-                <th >
-                    Nume Angajat
-                </th>
-                <th class="hiddencell">
-                    Participant
-                </th>
-            </tr>
-            @for (int i = 0; i < Model.totiangajatii.Count(); i++)
-                {
-                <tr >
-                    <td >
-                        @Html.DisplayFor(model => model.totiangajatii[i].nume)
-                    </td>
-                    <td class="hiddencell">
-                        @Html.EditorFor(model => model.totiangajatii[i].check)
-                        @Html.HiddenFor(model => model.totiangajatii[i].id)
-                    </td>
-                </tr>
-                }
-        </table>
-        <br />
-        @Html.HiddenFor(model => model.id)
-        <input type="submit" value="Salveaza schimbarile" class="btn btn-default" />
-        }
+﻿<div id="div_content">
+    @Html.Action("Content", new { id = ViewBag.Id })
 </div>
+
 
 @section dropdown_pro
     {
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@Model.nume<span class="caret"></span></a>
+    <a href="#" id="dd_nume" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@ViewBag.Title<span class="caret"></span></a>
     <ul class="dropdown-menu">
         @foreach (string i in ViewBag.proiecte)
-            {
-            <li><a href="@Url.Action("FindId", new { nume = i })">@i</a></li>
+            {if (i != ViewBag.Title)
+                {
+                <li><a href="@Url.Action("FindId", new { nume = i })">@i</a></li>
+                }
             }
     </ul>
 </li>
@@ -64,4 +21,10 @@
 @section Scripts
     {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery.ajax")
+    <script type="text/javascript">
+        function updateName() {
+            $("#dd_nume").html($("#h_nume").html() + '<span class="caret"></span>');
+        }
+    </script>
     }  

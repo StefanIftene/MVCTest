@@ -2,6 +2,8 @@
     font-family: Arial
 }
 
+/*NAVIGATION BAR TOP*/
+
 .mynavbar {
     background-color: rgba(54, 33, 160, 0.90);
     color: #ffffff;
@@ -25,6 +27,8 @@
    background-color: rgb(110, 95, 189)
 }
 
+/*TABLE*/
+
 .mytable {
     font-size: 12pt
 }
@@ -43,9 +47,13 @@
     background-color: #ffffff
 }
 
+/*BUTTON*/
+
 .btn {
     font-weight:bold
 }
+
+/*NAVIGATION TABS*/
 
 .nav-tabs > .inactive > a > * {
     color: #000000;
@@ -53,4 +61,8 @@
 
 .nav-tabs > .active > a > * {
     color: rgb(110, 95, 189)
+}
+
+.hidden_div {
+    display: none
 }

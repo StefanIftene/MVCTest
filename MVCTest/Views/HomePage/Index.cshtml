@@ -1,123 +1,40 @@
 ﻿
-@model MVCTest.Models.HomePageViewModel
-
-
-
 
 <ul class="nav nav-tabs" style="width:50%; min-width:400px">
-    <li class=@(ViewBag.chk ? "inactive" : "active")><a href="@Url.Action("Index")"><h3>Departamente</h3></a></li>
-    <li class=@(ViewBag.chk ? "active" : "inactive")><a href="@Url.Action("Index", new { chk = 1 })"><h3>Proiecte</h3></a></li>
+    <li class="select @(ViewBag.chk ? "inactive" : "active")"><a onclick="loadPartial('False');"><h3>Departamente</h3></a></li>
+    <li class="select @(ViewBag.chk ? "active" : "inactive")"><a onclick="loadPartial('True');"><h3>Proiecte</h3></a></li>
 </ul>
 
-<div style="position:relative; top: 50px">
-    @{
-        if (ViewBag.chk)
-            {
-            <table class="mytable" cellspacing=0>
-                <tr>
-                    <th>
-                        Nume Proiect
-                    </th>
-                    <th>
-                        Nr. de participanti
-                    </th>
-                    <th class="hiddencell"></th>
-                    <th class="hiddencell"></th>
-                </tr>
-                @foreach (MVCTest.Models.proiecte i in Model.proiecte)
-                    {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => i.nume)
-                        </td>
-                        <td>
-                            @i.angajati.Count()
-                        </td>
-                        <td class="hiddencell">
-                            <a href="@Url.Action("Index", "DetaliiProiect", new { id = i.id })"><button type="button" class="btn btn-default">Detalii</button></a>
-                        </td>
-                        <td class="hiddencell">
-                            @using (Html.BeginForm("DeleteProiect", "HomePage", i, FormMethod.Post))
-                                {
-                                @Html.AntiForgeryToken()
-                                <input type="submit" value="Opreste" class="btn btn-danger" />
-                                }
-                        </td>
-                    </tr>
-                    }
-            </table>
-            <br />
-            using (Html.BeginForm("CreateProiect", "HomePage", FormMethod.Post))
-                {
-                @Html.AntiForgeryToken();
-                <fieldset>
-                    <div style="width:230px; float:left">
-                        @Html.TextBox("newproname", "Proiect nou", new { @class = "form-control" })
-                        @Html.ValidationMessage("newproname", new { @class = "text-danger" })
-                    </div>
-                    <input type="submit" value="Creeaza" class="btn btn-default" />
-                </fieldset>
-                }
-            }
-        else
-            {
-            <table class="mytable" cellspacing="0">
-                <tbody>
-                    <tr>
-                        <th>
-                            Nume Departament
-                        </th>
-                        <th>
-                            Nr. de angajati
-                        </th>
-                        <th class="hiddencell"></th>
-                        <th class="hiddencell"></th>
-                    </tr>
-                    @foreach (MVCTest.Models.departamente i in Model.departamente)
-                        {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(m => i.nume)
-                            </td>
-                            <td>
-                                @i.angajati.Count()
-                            </td>
-                            <td class="hiddencell">
-                                <a href="@Url.Action("Index", "Detalii", new { id = i.id })"><button type="button" class="btn btn-default">Detalii</button></a>
-                            </td>
-                            <td class="hiddencell">
-                                @using (Html.BeginForm("Delete", "HomePage", i, FormMethod.Post))
-                                    {
-                                    @Html.AntiForgeryToken()
-                                    <input type="submit" value="Desfiinteaza" class="btn btn-sm btn-danger" />
-                                    }
-                            </td>
-                        </tr>
-                        }
-                </tbody>
-            </table>
-            <br />
-            using (Html.BeginForm("Create", "HomePage", FormMethod.Post))
-                {
-                @Html.AntiForgeryToken()
-                <fieldset>
-                    <div style="width:250px; float:left">
-                        @Html.TextBox("newdepname", "Departament nou", new { @class = "form-control" })
-                        @Html.ValidationMessage("newdepname", new { @class = "text-danger" })
-                    </div>
-                    <input type="submit" value="Infiinteaza" class="btn btn-default" />
-                </fieldset>
-                }
-            }
-
-    }
-
-    @Html.Label((string)ViewBag.Error, new { @class = "text-danger" })
-
-</div>
+<div id="div_partial" style="position:relative; top: 50px"></div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery.ajax")
+    <script type="text/javascript">
+
+        $(document).ready(function () { 
+            loadPartial("@ViewBag.chk");
+        })
+
+        function loadPartial(chk) {
+            if (chk == "True") {
+                $("#div_partial").load("/HomePage/Proiecte");
+            }
+            else $("#div_partial").load("/HomePage/Departamente");
+        }
+
+
+
+        $(".select").click(function () {
+
+            if ($(this).hasClass("inactive")) {
+
+                $(".select").toggleClass("inactive");
+                $(".select").toggleClass("active");
+            }
+        })
+
+    </script>
 }
 
 
