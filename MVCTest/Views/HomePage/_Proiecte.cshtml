@@ -1,7 +1,7 @@
 ﻿@{ Layout = null; }
 
 @model MVCTest.Models.ProiectePVM
-    
+
 <table class="mytable" cellspacing=0>
     <tr>
         <th>
@@ -26,7 +26,7 @@
                 <a href="@Url.Action("Index", "DetaliiProiect", new { id = i.id })"><button type="button" class="btn btn-default">Detalii</button></a>
             </td>
             <td class="hiddencell">
-                @using (Ajax.BeginForm("DeleteProiect", "HomePage", i, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "div_partial", Confirm = "Sigur?"}))
+                @using (Ajax.BeginForm("DeleteProiect", "HomePage", i, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "div_partial", OnSuccess="revalidation();"}))
                     {
                     @Html.AntiForgeryToken()
                     <input type="submit" value="Opreste" class="btn btn-danger" />
@@ -36,7 +36,7 @@
         }
 </table>
 <br />
-@using (Ajax.BeginForm("CreateProiect", "HomePage", new AjaxOptions { UpdateTargetId = "div_partial" }))
+@using (Ajax.BeginForm("CreateProiect", "HomePage", new AjaxOptions { UpdateTargetId = "div_partial", OnSuccess="revalidation();"}))
     {
     @Html.AntiForgeryToken();
     <fieldset>

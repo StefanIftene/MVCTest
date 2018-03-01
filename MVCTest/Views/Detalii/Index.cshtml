@@ -1,5 +1,5 @@
 ﻿<div id="div_content">
-    @Html.Action("Content", new { id = ViewBag.Id})
+
 </div>
 
 @section dropdown_dep
@@ -19,11 +19,19 @@
 
 @section Scripts 
     {
-    @Scripts.Render("~/bundles/jqueryval")
+
     @Scripts.Render("~/bundles/jquery.ajax")
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#div_content").load("/Detalii/Content/@ViewBag.Id", revalidation);
+        })
         function updateName() {
             $("#dd_departamente").html($("#h_nume").html() + '<span class="caret"></span>');
+        }
+        function revalidation() {
+            $("#div_content").removeData("validator");
+            $("#div_content").removeData("unobtrusive");
+            $.validator.unobtrusive.parse("#div_content");
         }
     </script>
     }

@@ -7,7 +7,7 @@
 <br />
 
 
-@using (Ajax.BeginForm("ModificaDepartament", "Detalii", new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "h_nume", OnSuccess = "updateName();"}))
+@using (Ajax.BeginForm("ModificaDepartament", "Detalii", new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "h_nume", OnSuccess = "updateName();" }))
     {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.id)
@@ -43,7 +43,7 @@
                     @Html.DisplayFor(m => i.data)
                 </td>
                 <td class="hiddencell">
-                    @using (Ajax.BeginForm("Concediaza", "Detalii", new { id = i.id, proid = Model.id }, new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content" }))
+                    @using (Ajax.BeginForm("Concediaza", "Detalii", new { id = i.id, proid = Model.id }, new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content", OnSuccess = "revalidatoin();" }))
                         {
                         @Html.AntiForgeryToken()
                         <input type="submit" value="Concediaza" class="btn btn-danger" />
@@ -56,14 +56,14 @@
 </div>
 <br />
 
-@using (Ajax.BeginForm("Transfera", "Detalii", new { id = Model.id }, new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content"}))
+@using (Ajax.BeginForm("Transfera", "Detalii", new { id = Model.id }, new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content", OnSuccess = "revalidation();" }))
     {
     @Html.AntiForgeryToken()
     @Html.DropDownList("angajati", "Angajati");
     <input type="submit" value="Transfera" class="btn btn-default" />
     }
 <br />
-@using (Ajax.BeginForm("Angajeaza", "Detalii", new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content" }))
+@using (Ajax.BeginForm("Angajeaza", "Detalii", new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content", OnSuccess = "revalidation();" }))
     {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.id)
@@ -78,3 +78,5 @@
     </div>
     <input type="submit" value="Angajeaza" class="btn btn-default" />
     }
+
+@Scripts.Render("~/bundles/jqueryval")

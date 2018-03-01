@@ -1,30 +1,43 @@
 ﻿<div id="div_content">
-    @Html.Action("Content", new { id = ViewBag.Id })
+
 </div>
 
 
 @section dropdown_pro
     {
-<li class="dropdown">
-    <a href="#" id="dd_nume" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@ViewBag.Title<span class="caret"></span></a>
-    <ul class="dropdown-menu">
-        @foreach (string i in ViewBag.proiecte)
-            {if (i != ViewBag.Title)
+    <li class="dropdown">
+        <a href="#" id="dd_nume" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@ViewBag.Title<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+            @foreach (string i in ViewBag.proiecte)
                 {
-                <li><a href="@Url.Action("FindId", new { nume = i })">@i</a></li>
+                if (i != ViewBag.Title)
+                    {
+                    <li><a href="@Url.Action("FindId", new { nume = i })">@i</a></li>
+                    }
                 }
-            }
-    </ul>
-</li>
-    }
+        </ul>
+    </li>
+}
 
 @section Scripts
     {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquery.ajax")
+
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#div_content").load("/Detalii/Content/@ViewBag.Id", revalidation);
+        })
+
         function updateName() {
             $("#dd_nume").html($("#h_nume").html() + '<span class="caret"></span>');
         }
+
+        function revalidation() {
+            $("#div_content").removeData("validator");
+            $("#div_content").removeData("unobtrusive");
+            $.validator.unobtrusive.parse("#div_content");
+        }
+
     </script>
-    }  
+}  

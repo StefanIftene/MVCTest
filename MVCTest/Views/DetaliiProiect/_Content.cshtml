@@ -18,7 +18,7 @@
         }
     <br />
     <br />
-    @using (Ajax.BeginForm("Schimbari", "DetaliiProiect", new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content" }))
+    @using (Ajax.BeginForm("Schimbari", "DetaliiProiect", new AjaxOptions { HttpMethod = "Post", Confirm = "Sigur?", UpdateTargetId = "div_content", OnSuccess="revalidation();" }))
         {
         @Html.AntiForgeryToken()
         <table class="mytable" cellspacing=0>
@@ -48,3 +48,4 @@
         <input type="submit" value="Salveaza schimbarile" class="btn btn-default" />
         }
 </div>
+
