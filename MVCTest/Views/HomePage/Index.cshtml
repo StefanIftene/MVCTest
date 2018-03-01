@@ -8,22 +8,22 @@
 <div id="div_partial" style="position:relative; top: 50px"></div>
 
 @section Scripts {
+
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jquery.ajax")
+
     <script type="text/javascript">
 
-        $(document).ready(function () { 
+        $(document).ready(function () {
             loadPartial("@ViewBag.chk");
         })
 
         function loadPartial(chk) {
             if (chk == "True") {
-                $("#div_partial").load("/HomePage/Proiecte");
+                $("#div_partial").load("/HomePage/Proiecte", revalidation);
             }
-            else $("#div_partial").load("/HomePage/Departamente");
+            else $("#div_partial").load("/HomePage/Departamente", revalidation);
         }
-
-
 
         $(".select").click(function () {
 
@@ -33,6 +33,12 @@
                 $(".select").toggleClass("active");
             }
         })
+
+        function revalidation() {
+            $("#div_partial").removeData("validator");
+            $("#div_partial").removeData("unobtrusive");
+            $.validator.unobtrusive.parse("#div_partial");
+        }
 
     </script>
 }

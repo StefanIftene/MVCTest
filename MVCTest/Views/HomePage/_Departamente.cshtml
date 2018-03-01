@@ -27,7 +27,7 @@
                     <a href="@Url.Action("Index", "Detalii", new { id = i.id })"><button type="button" class="btn btn-default">Detalii</button></a>
                 </td>
                 <td class="hiddencell">
-                    @using (Ajax.BeginForm("DeleteDepartament", "HomePage", i, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "div_partial", Confirm = "Sigur?" }))
+                    @using (Ajax.BeginForm("DeleteDepartament", "HomePage", i, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "div_partial", Confirm = "Sigur?", OnSuccess = "revalidation();" }))
                         {
                         @Html.AntiForgeryToken()
                         <input type="submit" value="Desfiinteaza" class="btn btn-sm btn-danger" />
@@ -38,7 +38,7 @@
     </tbody>
 </table>
 <br />
-@using (Ajax.BeginForm("CreateDepartament", "HomePage", new AjaxOptions { UpdateTargetId = "div_partial" }))
+@using (Ajax.BeginForm("CreateDepartament", "HomePage", new AjaxOptions { UpdateTargetId = "div_partial", OnSuccess = "revalidation();" }))
     {
     @Html.AntiForgeryToken()
     <fieldset>
